@@ -35,6 +35,7 @@ def _helm_chart_impl(ctx):
     helm_cache_path = helm_toolchain.helm_xdg_cache_home
     helm_config_path = helm_toolchain.helm_xdg_config_home
     helm_data_path = helm_toolchain.helm_xdg_data_home
+    package_name_internal = ctx.attr.package_name_internal if ctx.attr.package_name_internal else ctx.attr.package_name
 
     # declare rule output
     targz = ctx.actions.declare_file(ctx.attr.package_name + ".tgz")
@@ -114,6 +115,7 @@ def _helm_chart_impl(ctx):
             "{IMAGE_REPOSITORY}": ctx.attr.image_repository,
             "{HELM_CHART_VERSION}": helm_chart_version,
             "{HELM_CHART_NAME}": ctx.attr.package_name,
+            "{HELM_CHART_NAME_INTERNAL}": package_name_internal,
             "{HELM_PATH}": helm.path,
             "{HELM_CACHE_PATH}": helm_cache_path,
             "{HELM_CONFIG_PATH}": helm_config_path,
@@ -152,6 +154,7 @@ helm_chart = rule(
       "image": attr.label(allow_single_file = True, mandatory = False),
       "image_tag": attr.string(mandatory = False),
       "package_name": attr.string(mandatory = True),
+      "package_name_internal": attr.string(mandatory = False),
       "helm_chart_version": attr.string(mandatory = False, default = "1.0.0"),
       "image_repository": attr.string(),
       "values_repo_yaml_path": attr.string(default = "image.repository"),
