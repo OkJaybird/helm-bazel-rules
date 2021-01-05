@@ -35,9 +35,10 @@ def _helm_chart_impl(ctx):
     helm_cache_path = helm_toolchain.helm_xdg_cache_home
     helm_config_path = helm_toolchain.helm_xdg_config_home
     helm_data_path = helm_toolchain.helm_xdg_data_home
+    output_name = ctx.attr.output_name if ctx.attr.output_name else ctx.attr.package_name + ".tgz"
 
     # declare rule output
-    targz = ctx.actions.declare_file(ctx.attr.package_name + ".tgz")
+    targz = ctx.actions.declare_file(output_name)
 
     inputs += [helm, yq]
 
@@ -118,6 +119,7 @@ def _helm_chart_impl(ctx):
             "{HELM_CACHE_PATH}": helm_cache_path,
             "{HELM_CONFIG_PATH}": helm_config_path,
             "{HELM_DATA_PATH}": helm_data_path,
+            "{OUTPUT_NAME}": output_name,
             "{STAMP_FILE}": ctx.version_file.root.path,
             "{VALUES_REPO_YAML_PATH}": ctx.attr.values_repo_yaml_path,
             "{VALUES_TAG_YAML_PATH}": ctx.attr.values_tag_yaml_path,
@@ -156,6 +158,7 @@ helm_chart = rule(
       "image_repository": attr.string(),
       "values_repo_yaml_path": attr.string(default = "image.repository"),
       "values_tag_yaml_path": attr.string(default = "image.tag"),
+      "output_name": attr.string(mandatory = False),
       "_script_template": attr.label(allow_single_file = True, default = ":helm-chart-package.sh.tpl"),
       "chart_deps": attr.label_list(allow_files = True, mandatory = False),
     },

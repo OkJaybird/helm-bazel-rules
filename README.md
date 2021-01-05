@@ -114,7 +114,7 @@ The following attributes are accepted by the rule (some of them are mandatory).
 | values_repo_yaml_path | no | `image.repository` | The yaml path (expressed in dot notation) of values.yaml where the key of the image repository is defined in the values.yaml. |
 | values_tag_yaml_path | no | `image.tag` | The yaml path (expressed in dot notation) of values.yaml where the key of the image tag is defined in the values.yaml |
 | chart_deps | no | - | Helm chart dependencies of this rules. Defined as a list of dependencies of other helm_chart rules (bazel targets). |
-
+| output_name | no | `{package_name}.tgz` | The output name of the packaged chart. |
 
 #### Use of make_variables
 `image_tag` and `helm_chart_version` attributes support make variables. Make variables are provided to bazel through the `--define` argument.
