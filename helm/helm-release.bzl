@@ -38,7 +38,8 @@ def _helm_release_impl(ctx):
     release_name = ctx.attr.release_name
     helm_version = ctx.attr.helm_version or ""
 
-    stamp_files = [ctx.info_file, ctx.version_file]
+    # TODO: Incompatible with Spring Boot git stamping. Submit a bug for the bazel-springboot-rule git variable naming.
+    stamp_files = [] # stamp_files = [ctx.info_file, ctx.version_file]
 
     values_yaml = ""
     for i, values_yaml_file in enumerate(ctx.files.values_yaml):

@@ -29,7 +29,8 @@ def _helm_chart_impl(ctx):
     image_tag = ""
     helm_chart_version = get_make_value_or_default(ctx, ctx.attr.helm_chart_version)
     yq = ctx.toolchains["@com_github_masmovil_bazel_rules//toolchains/yq:toolchain_type"].yqinfo.tool.files.to_list()[0]
-    stamp_files = [ctx.info_file, ctx.version_file]
+    # TODO: Incompatible with Spring Boot git stamping. Submit a bug for the bazel-springboot-rule git variable naming.
+    stamp_files = [] # stamp_files = [ctx.info_file, ctx.version_file]
     helm_toolchain = ctx.toolchains["@com_github_masmovil_bazel_rules//toolchains/helm-3:toolchain_type"].helminfo
     helm = helm_toolchain.tool.files.to_list()[0]
     helm_cache_path = helm_toolchain.helm_xdg_cache_home
