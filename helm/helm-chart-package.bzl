@@ -22,7 +22,7 @@ def _helm_chart_impl(ctx):
     tmp_chart_root = ""
     tmp_chart_values_path = ""
     tmp_chart_manifest_path = ""
-    tmp_working_dir = "_tmp"
+    tmp_working_dir = "_tmp_{}".format(ctx.label.name)
     inputs = [] + ctx.files.srcs
 
     digest_path = ""
